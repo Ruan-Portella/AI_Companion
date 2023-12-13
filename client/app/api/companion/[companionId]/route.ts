@@ -42,3 +42,24 @@ export async function PATCH(req: Request, {params}: {params: {companionId: strin
         return new NextResponse("Internal Server Error", { status: 500 })
     }
 }
+
+export async function DELETE(request: Request, {params}: {params: {companionId: string}}) {
+    try {
+        const user = await currentUser();
+
+        if (!user || !user.id || !user.firstName) {
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
+        const companion = await prismadb.companion.delete({
+            where:{
+                userId: user.id,
+                id: params.companionId
+            }
+        });
+
+        return NextResponse.json(companion);
+    } catch {
+        return new NextResponse("Internal Server Error", { status: 500 })
+    }
+}
