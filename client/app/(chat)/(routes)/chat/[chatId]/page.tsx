@@ -43,8 +43,6 @@ export default async function ChatIdPage({params}: ChatIdPageProps) {
     }
 
   return (
-    <div>
         <ChatClient companion={companion} />
-    </div>
   )
 }
